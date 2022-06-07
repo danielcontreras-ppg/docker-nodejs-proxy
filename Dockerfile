@@ -1,7 +1,7 @@
 FROM node:alpine
-RUN mkdir -p /usr/src/calc
-WORKDIR /usr/src/calc
+RUN mkdir -p /usr/src/api-proxy
+WORKDIR /usr/src/api-proxy
 COPY . .
 RUN npm install
 EXPOSE 80
-CMD [ "node", "calculator.js" ]
+CMD [ "npm", "start" ]
