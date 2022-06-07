@@ -1,15 +1,29 @@
+import createFastifyServer from "fastify";
 import fastifyHttpProxy from "fastify-http-proxy";
 
 /**
- * Register and configure the `fastify-http-proxy` plugin.
+ * Create a Fastify server instance with logging enabled.
+ * Fastify uses the library `pino` for logging.
  *
- * This plugin supports all the options of `fastify-reply-from`,
- * as well as a few additional options e.g. `upstream`.
- *
- * @see https://github.com/fastify/fastify-http-proxy#options
- * @see https://github.com/fastify/fastify-reply-from
+ * @see https://www.fastify.io/docs/latest/Logging/
+ * @see https://github.com/pinojs/pino/
  */
+const fastify = createFastifyServer({
+	logger: true,
+});
+
 fastify.register(fastifyHttpProxy, {
 	upstream: "http://items.lfa",
 	undici: true,
 });
+try {
+	/**
+	 * Make use of top-level `await` i.e. outside of an `async` function.
+	 *
+	 * @see https://nodejs.org/docs/latest-v14.x/api/esm.html#esm_top_level_await
+	 */
+	await fastify.listen(80);
+} catch (error) {
+	fastify.log.error(error);
+	process.exit(1);
+}
