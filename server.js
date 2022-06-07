@@ -22,7 +22,7 @@ try {
 	 *
 	 * @see https://nodejs.org/docs/latest-v14.x/api/esm.html#esm_top_level_await
 	 */
-	await fastify.listen(80);
+	await fastify.listen(8080, '0.0.0.0');
 } catch (error) {
 	fastify.log.error(error);
 	process.exit(1);
